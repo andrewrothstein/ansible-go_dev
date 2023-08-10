@@ -4,5 +4,9 @@
     go_dev_install:
       - pkg: github.com/spf13/cobra-cli@latest
         target: cobra
+      - pkg: google.golang.org/protobuf/cmd/protoc-gen-go@latest
+        target: protoc-gen-go
+      - pkg: google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+        target: protoc-gen-go-grpc
   roles:
     - role: '{{ playbook_dir }}'
