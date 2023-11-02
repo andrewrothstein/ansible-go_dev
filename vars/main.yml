@@ -1,4 +1,15 @@
 ---
 # vars file for go_dev
-go_dev_path: '{{ "/usr/local" if go_dev_escalate else ansible_env.HOME + "/go"}}'
-go_dev_profile_dir: '{{ "/etc/profile.d" if go_dev_escalate else ansible_env.HOME + "/.profile.d" }}'
+go_dev_path: |-
+  {%- if go_dev_escalate -%}
+  /usr/local
+  {%- else -%}
+  {{- ansible_env.HOME }}/go
+  {%- endif -%}
+
+go_dev_profile_dir: |-
+  {%- if go_dev_escalate -%}
+  /etc/profile.d
+  {%- else -%}
+  {{- ansible_env.HOME }}/.profile.d
+  {%- endif -%}
