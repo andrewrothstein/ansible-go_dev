@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Testing andrewrothstein.go_dev
+  hosts: all
   vars:
     go_dev_install:
       - pkg: github.com/spf13/cobra-cli@latest

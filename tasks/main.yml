@@ -1,12 +1,15 @@
 ---
-- include_role:
+- name: Installing andrewrothstein.go
+  ansible.builtin.include_role:
     name: andrewrothstein.go
-- include_role:
+- name: Installing andrewrothstein.git
+  ansible.builtin.include_role:
     name: andrewrothstein.git
-- include_role:
+- name: Installing andrewrothstein.gcc_toolbox
+  ansible.builtin.include_role:
     name: andrewrothstein.gcc_toolbox
-- name: resolve platform specific vars
-  include_vars: '{{ item }}'
+- name: Resolve platform specific vars
+  ansible.builtin.include_vars: '{{ item }}'
   with_first_found:
     - files:
         - '{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml'
@@ -16,34 +19,34 @@
       paths:
         - '{{ role_path }}/vars'
 
-- name: create go path
+- name: Creating go path
   become: '{{ go_dev_escalate }}'
   become_user: root
   with_items:
     - '{{ go_dev_path }}'
     - '{{ go_dev_profile_dir }}'
-  file:
+  ansible.builtin.file:
     path: '{{ item }}'
     state: directory
-    mode: '0755'
+    mode: '755'
 
-- name: install go pkgs
+- name: Install go pkgs
   become: '{{ go_dev_escalate }}'
   become_user: root
-  with_items: '{{  go_dev_install_default | default([]) + go_dev_install | default([])  }}'
-  command: '{{ go_dev_root }}/bin/go install {{ item.pkg }}'
+  with_items: '{{ go_dev_install_default | default([]) + go_dev_install | default([]) }}'
+  ansible.builtin.command: '{{ go_dev_root }}/bin/go install {{ item.pkg }}'
   environment:
     GOROOT: '{{ go_dev_root }}'
     GOPATH: '{{ go_dev_path }}'
   args:
     creates: '{{ go_dev_path }}/bin/{{ item.target }}'
 
-- name: set go-dev environment variables in {{ go_dev_profile_dir }}
+- name: Set go-dev environment variables in {{ go_dev_profile_dir }}
   become: '{{ go_dev_escalate }}'
   become_user: root
   with_items:
     - go-dev.sh
-  template:
+  ansible.builtin.template:
     src: '{{ item }}.j2'
     dest: '{{ go_dev_profile_dir }}/{{ item }}'
-    mode: '0644'
+    mode: '644'
