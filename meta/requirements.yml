@@ -1,6 +1,6 @@
 ---
 - name: andrewrothstein.go
-  version: v2.4.19
+  version: v2.4.20
 - name: andrewrothstein.git
   version: v3.2.11
 - name: andrewrothstein.gcc_toolbox
