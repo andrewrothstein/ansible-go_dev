@@ -4,12 +4,12 @@ go_dev_path: |-
   {%- if go_dev_escalate -%}
   /usr/local
   {%- else -%}
-  {{- ansible_env.HOME }}/go
+  {{- ansible_facts["env"]["HOME"] }}/go
   {%- endif -%}
 
 go_dev_profile_dir: |-
   {%- if go_dev_escalate -%}
   /etc/profile.d
   {%- else -%}
-  {{- ansible_env.HOME }}/.profile.d
+  {{- ansible_facts["env"]["HOME"] }}/.profile.d
   {%- endif -%}
